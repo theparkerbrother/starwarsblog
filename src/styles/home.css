@@ -1,0 +1,9 @@
+/* Change the color of unselected tabs to black */
+.nav-link {
+    color: black !important;
+}
+
+/* Optional: Change the color of the active tab (if you want to keep it styled differently) */
+.nav-link.active {
+    color: #650101 !important;  /* or whatever color you prefer for the active tab */
+}
