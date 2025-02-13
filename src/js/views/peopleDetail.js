@@ -1,3 +1,4 @@
+import darthVader from "../../img/darthVader.png";
 import React, { useState } from 'react';
 
 const PeopleDetail = () => {
