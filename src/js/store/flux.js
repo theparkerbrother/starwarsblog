@@ -31,15 +31,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// },
 			],
 			planets: [
-				{
-					id: "1",
-					name: "Tatooine",
-					climate: "19BBY",
-					gravity: "male",
-					poplulation: "blue",
-					surface_water: "blond",
-					terrain: 172,
-				},
+				// {
+				// 	id: "1",
+				// 	name: "Tatooine",
+				// 	climate: "19BBY",
+				// 	gravity: "male",
+				// 	poplulation: "blue",
+				// 	surface_water: "blond",
+				// 	terrain: 172,
+				// },
+			],
+			favorites: [
+				//{
+				//	type: "person, vehicle, or planet",
+				//	id: "1",	
+				//}
 			],
 		},
 		actions: {
@@ -93,7 +99,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Update the store with detailed people data
 				console.log("All people with details:", allPeople);
 				setStore({ people: allPeople });
-			  },
+			},
 
 
 			// Get all Vehicles from first page
@@ -205,6 +211,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Update the store with detailed people data
 				console.log("All Planets with details:", allPlanets);
 				setStore({ planets: allPlanets });
+			},
+
+			favoriteToggle: (type, id) => {
+				const store = getStore();
+				const favorites = store.favorites || [];
+				const itemIndex = favorites.findIndex(favorite  => {
+					return favorite.type === type && favorite.id === id;
+				});
+
+				let newFavorites;
+				if (itemIndex === -1) {
+				  	// Add the item to favorites if it doesn't exist
+				  	newFavorites = [...favorites, { type, id }];
+				  	console.log(`${type} ${id} added as a favorite.`);
+				} else {
+				  	// Remove the item from favorites if it already exists
+				  	newFavorites = favorites.filter(
+						favorite => !(favorite.type === type && favorite.id === id)
+				  	);
+					console.log(`${type} ${id} removed as a favorite.`);
+				}
+
+				console.log("current favorites are:",favorites);
+			  
+				// Update the store with the new favorites array
+				setStore({ favorites: newFavorites });
 			},
 			
 			

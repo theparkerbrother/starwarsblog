@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+//import { useEffect } from "react/cjs/react.production.min";
 
-const PeopleCard = ({ name, gender, hairColor, eyeColor, id }) => {
+const PeopleCard = ({ name, gender, hairColor, eyeColor, id, isFavorite, favoriteToggle }) => {    
     // State to track if the item is in the favorites
-    const [isFavorited, setIsFavorited] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(isFavorite);
+
+    useEffect(() => {
+        setIsFavorited(isFavorite);
+    }, [isFavorite]);
 
     // Handle toggle click
     const handleFavoriteClick = () => {
-        setIsFavorited(!isFavorited); // Toggle the state
-        if (!isFavorited) {
-            // Add to favorites logic (e.g., add to an array or local storage)
-            console.log(`${name} added to favorites`);
-        } else {
-            // Remove from favorites logic
-            console.log(`${name} removed from favorites`);
-        }
+        favoriteToggle("person",id);
     };
     
     return (

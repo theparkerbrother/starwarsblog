@@ -1,17 +1,24 @@
 import darthVader from "../../img/darthVader.png";
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useParams } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 const PlanetDetail = () => {
-    const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
-    const planet = {
-      name: "Tatooine",
-      climate: "19BBY",
-      gravity: "male",
-      poplulation: "blue",
-      surface_water: "blond",
-      terrain: 172,
-    };
+  const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
+  const params = useParams();
+  const id = params.id;
+  const { store, actions } = useContext(Context);
+  
+  // If the data hasn't loaded yet, show a loading message
+  if (!store.planets || store.planets.length === 0) {
+    return <div>Loading...</div>;
+  }
+  
+  const planet = store.planets.find((planet) => planet.id.toString() === id);
+
+  if (!planet) {
+    return <div>Planet not found!</div>;
+  }
   
     // Toggle favorite
     const toggleFavorite = () => {
@@ -24,8 +31,7 @@ const PlanetDetail = () => {
           <div className="card-header">
             <h1>{planet.name}</h1>
             <h4>Planet Details</h4>
-          </div>
-  
+          </div>  
           <div className="card-body">
             {/* General Info */}
             <h4 className="mt-4">General Info</h4>

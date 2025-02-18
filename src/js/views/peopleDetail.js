@@ -19,16 +19,6 @@ const PeopleDetail = () => {
   if (!person) {
     return <div>Person not found!</div>;
   }
-  
-  // {
-  //   name: "Luke Skywalker",
-  //   birthYear: "19BBY",
-  //   gender: "male",
-  //   eyeColor: "blue",
-  //   hairColor: "blond",
-  //   height: 172,
-  //   skinColor: "fair",
-  // };
 
   // Toggle favorite
   const toggleFavorite = () => {

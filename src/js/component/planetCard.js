@@ -1,21 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-const PlanetCard = ({ name, climate, population, id }) => {
-    // State to track if the item is in the favorites
-    const [isFavorited, setIsFavorited] = useState(false);
-
-    // Handle toggle click
-    const handleFavoriteClick = () => {
-        setIsFavorited(!isFavorited); // Toggle the state
-        if (!isFavorited) {
-            // Add to favorites logic (e.g., add to an array or local storage)
-            console.log(`${name} added to favorites`);
-        } else {
-            // Remove from favorites logic
-            console.log(`${name} removed from favorites`);
-        }
-    };
+const PlanetCard = ({ name, climate, population, id, isFavorite, favoriteToggle }) => {
     
     return (
         <div className="card m-2" style={{ width: "24rem" }}>
@@ -32,8 +18,8 @@ const PlanetCard = ({ name, climate, population, id }) => {
                 <div className="card-footer d-flex justify-content-between align-items-center">
                     <Link to={`/planet-detail/${id}`} className="btn btn-secondary">Learn More</Link>
                     <i 
-                        className={`fa-heart ${isFavorited ? "fa-solid" : "fa-regular"}`}
-                        onClick={handleFavoriteClick}
+                        className={`fa-heart ${isFavorite ? "fa-solid" : "fa-regular"}`}
+                        onClick={() => favoriteToggle("planet", id)}
                     ></i>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import rigoImage from "../../img/rigo-baby.jpg";
 import darthVader from "../../img/darthVader.png";
 import "../../styles/home.css";
@@ -33,16 +33,23 @@ export const Home = () => {
 			<div className="tab-content mt-3" id="myTabContent">
 				<div className="tab-pane fade show active" id="people" role="tabpanel" aria-labelledby="people-tab">
 					<div className="d-flex flex-wrap justify-content-start">
-						{store.people.map((person) => (
-							<PeopleCard
-								key={person.id}
-								id={person.id}
-								name={person.name}
-								gender={person.gender}
-								hairColor={person.hairColor}
-								eyeColor={person.eyeColor}
-							/>
-						))}
+						{store.people.map((person) => {
+							const isFavorite = store.favorites.some(
+								favorite => favorite.type === "people" && favorite.id === person.id
+							);
+							return (
+								<PeopleCard
+									key={person.id}
+									id={person.id}
+									name={person.name}
+									gender={person.gender}
+									hairColor={person.hairColor}
+									eyeColor={person.eyeColor}
+									isFavorite={isFavorite}
+									favoriteToggle={actions.favoriteToggle}
+								/>
+							);
+						})}
 					</div>															
 				</div>
 				<div className="tab-pane fade" id="vehicles" role="tabpanel" aria-labelledby="vehicles-tab">
@@ -77,6 +84,8 @@ export const Home = () => {
 								name={planet.name}
 								climate={planet.climate}
 								population={planet.population}
+								isFavorite={planet.isFavorite}
+								favoriteToggle={actions.favoriteToggle}
 							/>
 						))}
 					</div>
