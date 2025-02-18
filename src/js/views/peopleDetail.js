@@ -1,17 +1,34 @@
 import darthVader from "../../img/darthVader.png";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Link, useParams } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 const PeopleDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
-  const person = {
-    name: "Luke Skywalker",
-    birthYear: "19BBY",
-    gender: "male",
-    eyeColor: "blue",
-    hairColor: "blond",
-    height: 172,
-    skinColor: "fair",
-  };
+  const params = useParams();
+  const id = params.id;
+  const { store, actions } = useContext(Context);
+  
+  // If the data hasn't loaded yet, show a loading message or spinner
+  if (!store.people || store.people.length === 0) {
+    return <div>Loading...</div>;
+  }
+  
+  const person = store.people.find((person) => person.id.toString() === id);
+
+  if (!person) {
+    return <div>Person not found!</div>;
+  }
+  
+  // {
+  //   name: "Luke Skywalker",
+  //   birthYear: "19BBY",
+  //   gender: "male",
+  //   eyeColor: "blue",
+  //   hairColor: "blond",
+  //   height: 172,
+  //   skinColor: "fair",
+  // };
 
   // Toggle favorite
   const toggleFavorite = () => {

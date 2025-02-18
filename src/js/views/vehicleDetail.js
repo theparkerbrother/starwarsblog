@@ -12,11 +12,11 @@ const VehicleDetail = () => {
   const vehicle = {
     name: "T-65 X-wing starfighter",
     model: "T-65",
-    vehicleClass: "Starfighter",
+    vehicle_class: "Starfighter",
     manufacturer: "Incom Corporation",
     passengers: 1,
     crew: 1,
-    cargoCapacity: "50 kg",
+    cargo_capacity: "50 kg",
   };
 
   return (
@@ -38,7 +38,7 @@ const VehicleDetail = () => {
               <strong>Model:</strong> {vehicle.model}
             </li>
             <li className="list-group-item">
-              <strong>Vehicle Class:</strong> {vehicle.vehicleClass}
+              <strong>Vehicle Class:</strong> {vehicle.vehicle_class}
             </li>
             <li className="list-group-item">
               <strong>Manufacturer:</strong> {vehicle.manufacturer}
@@ -55,7 +55,7 @@ const VehicleDetail = () => {
               <strong>Crew:</strong> {vehicle.crew}
             </li>
             <li className="list-group-item">
-              <strong>Cargo Capacity:</strong> {vehicle.cargoCapacity}
+              <strong>Cargo Capacity:</strong> {vehicle.cargo_capacity}
             </li>
           </ul>
         

@@ -33,7 +33,7 @@ const PeopleCard = ({ name, gender, hairColor, eyeColor, id }) => {
                 </li>
                 </ul>
                 <div className="card-footer d-flex justify-content-between align-items-center">
-                    <Link to="/learn-more" className="btn btn-secondary">Learn More</Link>
+                    <Link to={`/people-detail/${id}`} className="btn btn-secondary">Learn More</Link>
                     <i 
                         className={`fa-heart ${isFavorited ? "fa-solid" : "fa-regular"}`}
                         onClick={handleFavoriteClick}
