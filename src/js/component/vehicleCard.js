@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 const VehicleCard = ({ name, crew, passengers, id }) => {
+    const { store, actions } = useContext(Context);
+
     // State to track if the item is in the favorites
-    const [isFavorited, setIsFavorited] = useState(false);
+    //const [isFavorited, setIsFavorited] = useState(false);
+    const isFavorited = store.favorites.some(fav => fav.id === id && fav.type === "vehicle");
+
+    useEffect(() => {
+        //console.log("updated favorites list (from within vehicle card):",store.favorites);
+    }, [store.favorites]);
 
     // Handle toggle click
     const handleFavoriteClick = () => {
-        setIsFavorited(!isFavorited); // Toggle the state
-        if (!isFavorited) {
-            // Add to favorites logic (e.g., add to an array or local storage)
-            console.log(`${name} added to favorites`);
-        } else {
-            // Remove from favorites logic
-            console.log(`${name} removed from favorites`);
-        }
+        const detailLink = `/vehicle-detail/${id}`;
+        actions.favoriteToggle("vehicle", id, name, detailLink);
     };
     
     return (

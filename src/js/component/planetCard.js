@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 const PlanetCard = ({ name, climate, population, id, isFavorite, favoriteToggle }) => {
-    
+    const { store, actions } = useContext(Context);
+
+    // State to track if the item is in the favorites
+    //const [isFavorited, setIsFavorited] = useState(false);
+    const isFavorited = store.favorites.some(fav => fav.id === id && fav.type === "planet");
+
+    useEffect(() => {
+        //console.log("updated favorites list (from within vehicle card):",store.favorites);
+    }, [store.favorites]);
+
+    // Handle toggle click
+    const handleFavoriteClick = () => {
+        const detailLink = `/planet-detail/${id}`;
+        actions.favoriteToggle("planet", id, name, detailLink);
+    };
+
     return (
         <div className="card m-2" style={{ width: "24rem" }}>
             <div className="card-body">
@@ -18,8 +34,8 @@ const PlanetCard = ({ name, climate, population, id, isFavorite, favoriteToggle 
                 <div className="card-footer d-flex justify-content-between align-items-center">
                     <Link to={`/planet-detail/${id}`} className="btn btn-secondary">Learn More</Link>
                     <i 
-                        className={`fa-heart ${isFavorite ? "fa-solid" : "fa-regular"}`}
-                        onClick={() => favoriteToggle("planet", id)}
+                        className={`fa-heart ${isFavorited ? "fa-solid" : "fa-regular"}`}
+                        onClick={handleFavoriteClick}
                     ></i>
                 </div>
             </div>

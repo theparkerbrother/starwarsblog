@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import darthVader from '../../img/darthVader.png';
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
-  const [favoritesCount, setFavoritesCount] = useState(0);  // This will track the count
+  const { store, actions } = useContext(Context);
   const [showDropdown, setShowDropdown] = useState(false);  // Toggle dropdown visibility
   const [favorites, setFavorites] = useState([]);			// This holds the favorites list
+
+  // Handlers to show and hide dropdown on hover
+  const handleMouseEnter = () => {
+    setShowDropdown(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowDropdown(false);
+  };
+
 
   return (
     <nav className="navbar navbar-light bg-light mb-3 mt-3">
@@ -14,7 +25,11 @@ export const Navbar = () => {
       </Link>
 
       {/* Favorites Button with Dropdown */}
-      <div className="ml-auto">
+      <div 
+        className="ml-auto"
+        //onMouseEnter={handleMouseEnter} 
+        onMouseLeave={handleMouseLeave}
+      >
         <button
           className="btn btn-secondary dropdown-toggle"
           type="button"
@@ -24,14 +39,22 @@ export const Navbar = () => {
           aria-expanded={showDropdown ? "true" : "false"}
           onClick={() => setShowDropdown(!showDropdown)}
         >
-          Favorites ({favoritesCount})
+          Favorites ({store.favorites.length})
         </button>
         {showDropdown && (
           <div className="dropdown-menu show" aria-labelledby="favoritesDropdown">
-            <a className="dropdown-item" href="#">Favorite 1</a>
-            <a className="dropdown-item" href="#">Favorite 2</a>
-            <a className="dropdown-item" href="#">Favorite 3</a>
-            {/* More favorites could go here */}
+            {store.favorites.length > 0 ? (
+              store.favorites.map((fav, index) => (
+                <div key={index} className="dropdown-item">
+                 <Link 
+                      to={`${fav.detailLink}`}
+                    >{fav.name}
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <span className="dropdown-item text-muted">No favorites yet</span>
+            )}
           </div>
         )}
       </div>

@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-//import { useEffect } from "react/cjs/react.production.min";
+import { Context } from "../store/appContext";
 
-const PeopleCard = ({ name, gender, hairColor, eyeColor, id, isFavorite, favoriteToggle }) => {    
+const PeopleCard = ({ name, gender, hairColor, eyeColor, id, isFavorite }) => {    
+    const { store, actions } = useContext(Context);
+
     // State to track if the item is in the favorites
-    const [isFavorited, setIsFavorited] = useState(isFavorite);
+    const isFavorited = store.favorites.some(fav => fav.id === id && fav.type === "person");
 
     useEffect(() => {
-        setIsFavorited(isFavorite);
-    }, [isFavorite]);
+        //console.log("updated favorites list (from within people card):",store.favorites);
+    }, [store.favorites]);
+
 
     // Handle toggle click
-    const handleFavoriteClick = () => {
-        favoriteToggle("person",id);
+    const handleFavoriteClick = async () => {
+        const detailLink = `/people-detail/${id}`;
+        actions.favoriteToggle("person",id, name, detailLink);
     };
     
     return (

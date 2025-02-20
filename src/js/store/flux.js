@@ -1,3 +1,5 @@
+import { json } from "react-router";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -47,6 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//	id: "1",	
 				//}
 			],
+			activeTab: "people",
 		},
 		actions: {
 			// Get all people from first page
@@ -213,32 +216,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ planets: allPlanets });
 			},
 
-			favoriteToggle: (type, id) => {
+			favoriteToggle: (type, id, name, detailLink) => {
 				const store = getStore();
-				const favorites = store.favorites || [];
-				const itemIndex = favorites.findIndex(favorite  => {
-					return favorite.type === type && favorite.id === id;
-				});
+				const favorites = [...store.favorites];
+				const itemIndex = favorites.findIndex(favorite  => favorite.type === type && favorite.id === id);
 
 				let newFavorites;
 				if (itemIndex === -1) {
 				  	// Add the item to favorites if it doesn't exist
-				  	newFavorites = [...favorites, { type, id }];
-				  	console.log(`${type} ${id} added as a favorite.`);
+					const favoriteToAdd = { type, id, name, detailLink };
+				  	newFavorites = [...favorites, favoriteToAdd];
+					setStore({ favorites: newFavorites });
 				} else {
 				  	// Remove the item from favorites if it already exists
 				  	newFavorites = favorites.filter(
 						favorite => !(favorite.type === type && favorite.id === id)
 				  	);
-					console.log(`${type} ${id} removed as a favorite.`);
+					setStore({ favorites: newFavorites });
 				}
-
-				console.log("current favorites are:",favorites);
 			  
 				// Update the store with the new favorites array
 				setStore({ favorites: newFavorites });
+				//console.log("current favorites are:",favorites);
 			},
-			
 			
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {

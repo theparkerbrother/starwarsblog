@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 const VehicleDetail = () => {
-  const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
+  //const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
   const params = useParams();
   const id = params.id;
   const { store, actions } = useContext(Context);
@@ -20,20 +20,13 @@ const VehicleDetail = () => {
     return <div>Vehicle not found!</div>;
   }
 
-  // Toggle favorite
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const isFavorite = store.favorites.some(fav => fav.id === id && fav.type === "vehicle");
+  
+  // Handle toggle click
+  const handleFavoriteClick = async () => {
+    const detailLink = `/vehicle-detail/${id}`;
+    actions.favoriteToggle("vehicle",id, vehicle.name, detailLink);
   };
-
-  // const vehicle = {
-  //   name: "T-65 X-wing starfighter",
-  //   model: "T-65",
-  //   vehicle_class: "Starfighter",
-  //   manufacturer: "Incom Corporation",
-  //   passengers: 1,
-  //   crew: 1,
-  //   cargo_capacity: "50 kg",
-  // };
 
   return (
     <div className="container mt-5">
@@ -77,7 +70,7 @@ const VehicleDetail = () => {
         
             {/* Heart Icon to Mark Favorite */}
             <div className="text-right">
-            <button className="mt-3 btn btn-outline-secondary" onClick={toggleFavorite}>
+            <button className={`mt-3 btn ${isFavorite ? 'btn-secondary' : 'btn-outline-secondary'}`} onClick={handleFavoriteClick}>
               <i className={`me-2 fa-heart ${isFavorite ? 'fa-solid' : 'fa-regular'}`}></i> 
               {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             </button>

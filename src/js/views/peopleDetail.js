@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 const PeopleDetail = () => {
-  const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
   const params = useParams();
   const id = params.id;
   const { store, actions } = useContext(Context);
@@ -20,9 +19,12 @@ const PeopleDetail = () => {
     return <div>Person not found!</div>;
   }
 
-  // Toggle favorite
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const isFavorite = store.favorites.some(fav => fav.id === id && fav.type === "person");
+
+  // Handle toggle click
+  const handleFavoriteClick = async () => {
+    const detailLink = `/people-detail/${id}`;
+    actions.favoriteToggle("person",id, person.name, detailLink);
   };
 
   return (
@@ -61,7 +63,7 @@ const PeopleDetail = () => {
           </ul>
           {/* Heart Icon to Mark Favorite */}
           <div className="text-right">
-            <button className={`mt-3 btn ${isFavorite ? 'btn-secondary' : 'btn-outline-secondary'}`} onClick={toggleFavorite}>
+            <button className={`mt-3 btn ${isFavorite ? 'btn-secondary' : 'btn-outline-secondary'}`} onClick={handleFavoriteClick}>
               <i className={`me-2 fa-heart ${isFavorite ? 'fa-solid' : 'fa-regular'}`}></i> 
               {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             </button>
